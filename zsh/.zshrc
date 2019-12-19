@@ -126,6 +126,7 @@ if [ -n "${TMUX}" ]; then
 
   # ショートカットキー割り当て
   bindkey "^[s" update_ssh_auth_sock
+  alias update_repo='update_ssh_auth_sock; repo sync -d -c -q --jobs=24 --no-tags;'
 fi
 
 man() {
@@ -139,8 +140,11 @@ man() {
   man "$@"
 }
 
-#   mans:   Search manpage given in agument '1' for term given in argument '2' (case insensitive)
-#           displays paginated result with colored search terms and two lines surrounding each hit.            Example: mans mplayer codec
+#   mans:   Search manpage given in agument '1' for term given in argument
+#           '2' (case insensitive)
+#           displays paginated result with colored search terms and two
+#           lines surrounding each hit.
+#           Example: mans mplayer codec
 #   --------------------------------------------------------------------
 mans () {
   man $1 | grep -iC2 --color=always $2 | more -R
@@ -157,4 +161,3 @@ lr() {
   -e 's/-/|/' |
   more -R
 }
-

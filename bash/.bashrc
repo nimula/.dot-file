@@ -128,3 +128,36 @@ fi
 if [ -x /usr/bin/mint-fortune ]; then
      /usr/bin/mint-fortune
 fi
+
+man() {
+  env LESS_TERMCAP_mb=$'\E[01;31m' \
+  LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+  LESS_TERMCAP_me=$'\E[0m' \
+  LESS_TERMCAP_se=$'\E[0m' \
+  LESS_TERMCAP_so=$'\E[38;5;246m' \
+  LESS_TERMCAP_ue=$'\E[0m' \
+  LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+  man "$@"
+}
+
+#   mans:   Search manpage given in agument '1' for term given in argument
+#           '2' (case insensitive)
+#           displays paginated result with colored search terms and two
+#           lines surrounding each hit.
+#           Example: mans mplayer codec
+#   --------------------------------------------------------------------
+mans () {
+  man $1 | grep -iC2 --color=always $2 | more -R
+}
+
+#   lr:  Full Recursive Directory Listing
+#   ------------------------------------------
+lr() {
+  /bin/ls -R |
+  grep ':$' |
+  sed -e 's/:$//' \
+  -e 's/[^-][^\/]*\//–/g' \
+  -e 's/^/ /' \
+  -e 's/-/|/' |
+  more -R
+}
