@@ -1,2 +1,2 @@
 # .dot-file
-dot file for my linux mint zsh
+These are my personal dotfiles.
