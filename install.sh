@@ -74,6 +74,8 @@ install_rsubl
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Symlink the dotfiles.
+ln -fnsv "$DIR/bash/.bashrc" "$HOME/"
+ln -fnsv "$DIR/bash/.profile" "$HOME/"
 ln -fnsv "$DIR/zsh/.zshrc" "$HOME/"
 ln -fnsv "$DIR/zsh/.zprofile" "$HOME/"
 ln -fnsv "$DIR/tmux/.tmux.conf" "$HOME/"
