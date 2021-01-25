@@ -29,7 +29,7 @@ alias .6='cd ../../../../../../'            # Go back 6 directory levels
 #   -------------------------------
 
 zipf () { zip -r "$1".zip "$1" ; }                # zipf:       To create a ZIP archive of a folder
-zipc () { zip -r "$1".zip "$1" -x "*.DS_Store"; } # zipc:       To create a clean ZIP archive for a folder
+zipc () { zip -r "$1".zip "$@" -x "*.DS_Store"; } # zipc:       To create a clean ZIP archive for a folder
 alias numFiles='echo $(ls -1 | wc -l)'            # numFiles:   Count of non-hidden files in current dir
 
 #   extract:  Extract most know archives with one command

@@ -60,7 +60,7 @@ source ~/.dot-file/zsh/powerlevel9k_settings.sh
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
+  git podman
 )
 
 source $ZSH/oh-my-zsh.sh
