@@ -69,6 +69,12 @@ install_rsubl() {
 	fi
 }
 
+set_skip_global_compinit() {
+  if [ -z "$(grep -q "skip_global_compinit=1" $HOME/.zshenv)" ]; then
+    echo "skip_global_compinit=1" >> "$HOME/.zshenv"
+  fi
+}
+
 # Install zsh (if not available) and zim.
 install_zsh
 # Install sauce code pro nerd font
@@ -96,3 +102,5 @@ git config --global include.path "$DIR/git/.gitconfig.static"
 
 # Update zim module
 zsh ~/.zim/zimfw.zsh install
+
+set_skip_global_compinit
