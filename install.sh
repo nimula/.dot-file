@@ -102,5 +102,6 @@ git config --global include.path "$DIR/git/.gitconfig.static"
 
 # Update zim module
 zsh ~/.zim/zimfw.zsh install
+zsh ~/.zim/zimfw.zsh upgrade
 
 set_skip_global_compinit
