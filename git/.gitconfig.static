@@ -11,19 +11,26 @@
 	rt = reset --hard
 	unstage = reset HEAD
 	uncommit = reset --soft HEAD^
-	l = log --pretty=oneline --abbrev-commit --graph --decorate
+	# list all alias
 	la = "!git config -l | grep alias | cut -c 7-"
+	# custom color oneline with author
+	l = "log --graph --format=format:'%C(bold blue)%h%C(reset) \
+%C(auto)%s%C(reset) %C(bold white)- %an%C(reset)%C(auto)%d%C(reset)' \
+--abbrev-commit --date=relative"
+	# custom color oneline with author and relative author date
 	ld = "log --graph --all --format=format:'%C(bold blue)%h%C(reset) - \
-%C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)- \
-%an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
-	ls = log --graph --pretty=format:"%h <%an> %ar %s"
+%C(bold green)(%ar)%C(reset) %C(auto)%s%C(reset) %C(bold white)- \
+%an%C(reset)%C(auto)%d%C(reset)' --abbrev-commit --date=relative"
+	# oneline for short
+	ls = log --pretty=oneline --abbrev-commit --graph --decorate
+
 	who = shortlog -n -s --no-merges
 	g = grep -n --color -E
- # 'git add -u' handles deleted files, but not new files
- # 'git add .' handles any current and new files, but not deleted
- # 'git addall' now handles all changes
+	# 'git add -u' handles deleted files, but not new files
+	# 'git add .' handles any current and new files, but not deleted
+	# 'git addall' now handles all changes
  	addall = !sh -c 'git add . && git add -u'
- # Handy shortcuts for rebasing
+	# Handy shortcuts for rebasing
  	rc = rebase --continue
  	rs = rebase --skip
 	ra = rebase --abort

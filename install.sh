@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Author : nimula+github@gmail.com
 
-install_zsh() {
+function install_zsh() {
   # Test to see if zshell is installed.
-  if [ -z "$(command -v zsh)" ]; then
+  if [[ -z "$(command -v zsh)" ]]; then
     # If zsh isn't installed, get the platform of the current machine and
     # install zsh with the appropriate package manager.
     platform=$(uname);
@@ -29,17 +29,18 @@ install_zsh() {
   fi
 }
 
-install_nerd_font() {
+function install_nerd_font() {
   platform=$(uname);
   if [[ $platform == 'Darwin' ]]; then
     brew tap homebrew/cask-fonts
-    brew install --cask font-sauce-code-pro-nerd-font
+    brew install --cask font-sauce-code-pro-nerd-font \
+    font-noto-sans font-noto-sans-cjk font-noto-serif font-noto-serif-cjk
   fi
 }
 
-install_tmux() {
+function install_tmux() {
   # Test to see if tmux is installed.
-  if [ -z "$(command -v tmux)" ]; then
+  if [[ -z "$(command -v tmux)" ]]; then
     # If tmux isn't installed, get the platform of the current machine and
     # install tmux with the appropriate package manager.
     platform=$(uname);
@@ -60,28 +61,37 @@ install_tmux() {
   fi
 }
 
-install_rsubl() {
+function install_rsubl() {
 	# Test to see if rmate is installed.
-  if [ -z "$(command -v rsubl)" ]; then
-    sudo curl https://raw.github.com/aurora/rmate/master/rmate -fsSL \
-      -o /usr/local/bin/rsubl
-  	sudo chmod a+x /usr/local/bin/rsubl
+  if [[ -z "$(command -v rsubl)" ]]; then
+    DIR="/usr/local/bin"
+    SUDO="sudo"
+    # If '/usr/local/bin' is not available, use '.local/bin' instead.
+    if [[ ! -d $DIR ]]; then
+      DIR="$HOME/.local/bin"
+      SUDO=""
+    fi
+
+    $SUDO curl https://raw.github.com/aurora/rmate/master/rmate -fsSL \
+      -o "$DIR/rsubl"
+  	$SUDO chmod a+x "$DIR/rsubl"
 	fi
 }
 
-set_skip_global_compinit() {
-  if [ -z "$(grep -q "skip_global_compinit=1" $HOME/.zshenv)" ]; then
+function set_skip_global_compinit() {
+  if ! grep -q "skip_global_compinit=1" $HOME/.zshenv; then
+    echo "" >> "$HOME/.zshenv"
     echo "skip_global_compinit=1" >> "$HOME/.zshenv"
   fi
 }
 
 # Install zsh (if not available) and zim.
 install_zsh
-# Install sauce code pro nerd font
+# Install sauce code pro nerd font and noto fonts.
 install_nerd_font
-# Install tmux (if not available) and tmux plugin manager
+# Install tmux (if not available) and tmux plugin manager.
 install_tmux
-# Install rmate as rsubl
+# Install rmate as rsubl.
 install_rsubl
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -100,7 +110,7 @@ ln -fnsv "$DIR/git/.gitignore.global" "$HOME"
 # Link static gitconfig.
 git config --global include.path "$DIR/git/.gitconfig.static"
 
-# Update zim module
+# Update zim module.
 zsh ~/.zim/zimfw.zsh install
 zsh ~/.zim/zimfw.zsh upgrade
 
