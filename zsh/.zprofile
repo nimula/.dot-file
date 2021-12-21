@@ -7,6 +7,9 @@ case "${OS}" in
   "OSX")
     # set the number of open files to be 1024
     ulimit -S -n 1024
+    if [[ -x /opt/homebrew/bin/brew ]]; then
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
     ;;
   *)
     ;;
