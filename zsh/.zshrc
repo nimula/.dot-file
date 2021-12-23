@@ -177,12 +177,12 @@ alias l='ls -CF'
 alias la='ls -Al'
 alias ll='ls -lF'
 
-case "${OS}" in
+case $(uname) in
   "Linux")
     alias ls='ls --color=always'
     alias lm='ls -alF | less -R'
     ;;
-  "OSX")
+  "Darwin")
     alias lm='CLICOLOR_FORCE=1 ls -AGlF | more -R'
     ;;
   *)
@@ -203,7 +203,7 @@ if [ -n "${TMUX}" ]; then
 
   # ショートカットキー割り当て
   bindkey "^[s" update_ssh_auth_sock
-  alias update_repo='update_ssh_auth_sock; repo sync -d -c -q --jobs=24 --no-tags;'
+  alias update_repo='update_ssh_auth_sock; repo sync -d -c -q --jobs=24 --no-tags'
 fi
 
 #  man: Colored man pages

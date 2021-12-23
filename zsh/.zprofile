@@ -1,10 +1,10 @@
 # set PATH so it includes user's private bin directories
 PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
-case "${OS}" in
+case $(uname) in
   "Linux")
     ;;
-  "OSX")
+  "Darwin")
     # set the number of open files to be 1024
     ulimit -S -n 1024
     if [[ -x /opt/homebrew/bin/brew ]]; then
@@ -38,20 +38,21 @@ alias numFiles='echo $(ls -1 | wc -l)'            # numFiles:   Count of non-hid
 #   extract:  Extract most know archives with one command
 #   ---------------------------------------------------------
 extract () {
-  if [ -f $1 ] ; then
+  if [ -f $1 ]; then
     case $1 in
-      *.tar.bz2)   tar xjf $1     ;;
-      *.tar.gz)    tar xzf $1     ;;
-      *.bz2)       bunzip2 $1     ;;
-      *.rar)       unrar e $1     ;;
-      *.gz)        gunzip $1      ;;
-      *.tar)       tar xf $1      ;;
-      *.tbz2)      tar xjf $1     ;;
-      *.tgz)       tar xzf $1     ;;
-      *.zip)       unzip $1       ;;
-      *.Z)         uncompress $1  ;;
-      *.7z)        7z x $1        ;;
-      *)     echo "'$1' cannot be extracted via extract()" ;;
+      *.tar.bz2)  tar xjf $1    ;;
+      *.tar.gz)   tar xzf $1    ;;
+      *.bz2)      bunzip2 $1    ;;
+      *.rar)      unrar e $1    ;;
+      *.gz)       gunzip $1     ;;
+      *.tar)      tar xf $1     ;;
+      *.tbz2)     tar xjf $1    ;;
+      *.tgz)      tar xzf $1    ;;
+      *.zip)      unzip $1      ;;
+      *.Z)        uncompress $1 ;;
+      *.7z)       7z x $1       ;;
+      *.zst)      zstd -d $1    ;;
+      *)      echo "'$1' cannot be extracted via extract()" ;;
     esac
   else
     echo "'$1' is not a valid file"
@@ -83,12 +84,12 @@ alias lsockT='sudo lsof -nP | grep TCP'       # lsockT:       Display only open 
 alias openPorts='sudo lsof -i | grep LISTEN'  # openPorts:    All listening connections
 alias showBlocked='sudo ipfw list'            # showBlocked:  All ipfw rules inc/ blocked IPs
 
-case "${OS}" in
+case $(uname) in
   "Linux")
     alias ipInfo0='ifconfig enp6s0f0'        # ipInfo0:      Get info on connections for en0
     alias ipInfo1='ifconfig enp6s0f1'        # ipInfo1:      Get info on connections for en1
     ;;
-  "OSX")
+  "Darwin")
     alias ipInfo0='ipconfig getpacket en0'   # ipInfo0:      Get info on connections for en0
     alias ipInfo1='ipconfig getpacket en1'   # ipInfo1:      Get info on connections for en1
     alias flushDNS='dscacheutil -flushcache' # flushDNS:     Flush out the DNS Cache
