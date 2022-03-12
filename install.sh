@@ -2,11 +2,11 @@
 # Author : nimula+github@gmail.com
 
 function install_zsh() {
+  platform=$(uname);
   # Test to see if zshell is installed.
   if [[ -z "$(command -v zsh)" ]]; then
     # If zsh isn't installed, get the platform of the current machine and
     # install zsh with the appropriate package manager.
-    platform=$(uname);
     if [[ $platform == 'Linux' ]]; then
       if [[ -f /etc/redhat-release ]]; then
         sudo yum install zsh
@@ -18,12 +18,14 @@ function install_zsh() {
       brew install zsh
     fi
   fi
-  # Set the default shell to zsh if it isn't currently set to zsh
-  if [[ ! "$SHELL" == "$(command -v zsh)" ]]; then
-    chsh -s "$(command -v zsh)"
+  if [[ $platform == 'Linux' || $platform == 'Darwin' ]]; then
+    # Set the default shell to zsh if it isn't currently set to zsh
+    if [[ ! "$SHELL" == "$(command -v zsh)" ]]; then
+      chsh -s "$(command -v zsh)"
+    fi
   fi
   # Install zim if it isn't already present
-  if [[ ! -d $HOME/.zim/ ]]; then
+  if [[ ! -d "$HOME/.zim/" ]]; then
     echo "Install zim"
     curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
   fi
@@ -56,7 +58,7 @@ function install_tmux() {
     fi
   fi
   # Clone Tmux Plugin Manager if it isn't already present
-  if [[ ! -d $HOME/.tmux/plugins/tpm/ ]]; then
+  if [[ ! -d "$HOME/.tmux/plugins/tpm/" ]]; then
     git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
   fi
 }
@@ -67,7 +69,7 @@ function install_rsubl() {
     DIR="/usr/local/bin"
     SUDO="sudo"
     # If '/usr/local/bin' is not available, use '.local/bin' instead.
-    if [[ ! -d $DIR ]]; then
+    if [[ ! -d "$DIR" ]]; then
       DIR="$HOME/.local/bin"
       SUDO=""
     fi
@@ -79,7 +81,7 @@ function install_rsubl() {
 }
 
 function set_skip_global_compinit() {
-  if ! grep -q "skip_global_compinit=1" $HOME/.zshenv; then
+  if ! grep -q "skip_global_compinit=1" "$HOME/.zshenv"; then
     echo "" >> "$HOME/.zshenv"
     echo "skip_global_compinit=1" >> "$HOME/.zshenv"
   fi
