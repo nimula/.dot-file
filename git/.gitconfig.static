@@ -15,12 +15,12 @@
 	la = "!git config -l | grep alias | cut -c 7-"
 	# custom color oneline with author
 	l = "log --graph --format=format:'%C(bold blue)%h%C(reset) \
-%C(auto)%s%C(reset) %C(bold white)- %an%C(reset)%C(auto)%d%C(reset)' \
+%C(auto)%s%C(reset) %C(bold yellow)<%an>%C(reset)%C(auto)%d%C(reset)' \
 --abbrev-commit --date=relative"
 	# custom color oneline with author and relative author date
 	ld = "log --graph --all --format=format:'%C(bold blue)%h%C(reset) - \
-%C(bold green)(%ar)%C(reset) %C(auto)%s%C(reset) %C(bold white)- \
-%an%C(reset)%C(auto)%d%C(reset)' --abbrev-commit --date=relative"
+%C(bold green)(%ar)%C(reset) %C(auto)%s%C(reset) %C(bold yellow)<%an>%C(reset)\
+%C(auto)%d%C(reset)' --abbrev-commit --date=relative"
 	# oneline for short
 	ls = log --pretty=oneline --abbrev-commit --graph --decorate
 
