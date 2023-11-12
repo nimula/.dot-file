@@ -1,5 +1,5 @@
-#!/bin/bash
-# Author : nimula@gmail.com
+#!/usr/bin/env bash
+# Author : nimula+github@gmail.com
 
 pane_fmt="#{pane_id} #{pane_in_mode} #{pane_input_off} #{pane_dead} #{pane_current_command}"
 tmux list-panes -s -F "$pane_fmt" | awk '
@@ -9,4 +9,3 @@ tmux list-panes -s -F "$pane_fmt" | awk '
   # also clear screen
   tmux send-keys -t "$pane_id" 'Enter' 'eval "$(tmux show-env -s | grep '^SSH_')"' 'Enter'
 done;
-

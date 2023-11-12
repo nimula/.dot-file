@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 POWERLEVEL9K_MODE='nerdfont-complete'
 # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir dir_writable)

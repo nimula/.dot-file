@@ -1,3 +1,7 @@
+#   -----------------------------
+#   1. ENVIRONMENT SET UP
+#   -----------------------------
+
 # set PATH so it includes user's private bin directories
 PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
@@ -73,7 +77,7 @@ ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name end
 spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
 
 #   ---------------------------
-#   6. NETWORKING
+#   5. NETWORKING
 #   ---------------------------
 
 alias myip='curl my-ip-is.appspot.com/plain'  # myip:         Public facing IP Address
@@ -97,6 +101,7 @@ case $(uname) in
   *)
     ;;
 esac
+
 #   ii:  display useful host related informaton
 #   -------------------------------------------------------------------
 ii() {
@@ -109,4 +114,20 @@ ii() {
   echo -e "\n${RED}Public facing IP Address :$NC " ; myip
   #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
   echo
+}
+
+#   -----------------------------
+#   6. SEPARATE AUDIO FROM VIDEO WITH FFMPEG
+#   -----------------------------
+
+separate_audio() {
+  for ext in "$@"; do
+    for file in *."${ext}"; do
+      if [ -e "${file}" ]; then
+        ffmpeg -i "$file" -y -vn -acodec copy \
+          "${file%.*}".$(ffprobe "$file" 2>&1 | \
+          sed -nr 's/^.*Audio:\s*(\w+)\s*.*$/\1/p');
+      fi
+    done
+  done
 }
