@@ -37,4 +37,8 @@ zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-history-substring-search
 # }}} End configuration added by Zim install
 
+# Powerlevel10k is a theme for Zsh
 zmodule romkatv/powerlevel10k
+
+# z - jump around
+zmodule rupa/z
