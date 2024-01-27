@@ -27,6 +27,11 @@ function install_zsh() {
       chsh -s "$(command -v zsh)"
     fi
   fi
+
+  # Upgrading Bash on macOS
+  if [[ $platform == 'Darwin' ]]; then
+      brew install bash
+  fi
   # Install zim if it isn't already present
   if [[ ! -d "$HOME/.zim/" ]]; then
     echo "Install zim"
@@ -55,11 +60,6 @@ function install_tmux() {
     # Clone Tmux Plugin Manager if it isn't already present
     if [[ ! -d "$HOME/.tmux/plugins/tpm/" ]]; then
       git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
-    fi
-  elif [[ $platform == 'Darwin' ]]; then
-    if [[ -z "$(command -v iterm)" ]]; then
-      # If iTerm2 isn't installed, install it using Homebrew
-      brew install --cask iterm2
     fi
   fi
 }
@@ -105,10 +105,12 @@ ln -fnsv "$DIR/zsh/.zimrc" "$HOME"
 ln -fnsv "$DIR/zsh/.p10k.zsh" "$HOME"
 
 # Symlink other dotfiles.
-ln -fnsv "$DIR/tmux/.tmux.conf" "$HOME"
 ln -fnsv "$DIR/vim/.vimrc" "$HOME"
 ln -fnsv "$DIR/vim" "$HOME/.vim"
 ln -fnsv "$DIR/git/.gitignore.global" "$HOME"
+if [[ $platform == 'Linux' ]]; then
+ ln -fnsv "$DIR/tmux/.tmux.conf" "$HOME"
+fi
 
 # Link static gitconfig.
 git config --global include.path "$DIR/git/.gitconfig.static"
