@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # Author : nimula+github@gmail.com
+#
+
+# Get the platform of the current machine.
+platform=$(uname);
 
 function install_zsh() {
-  platform=$(uname);
   # Test to see if zshell is installed.
   if [[ -z "$(command -v zsh)" ]]; then
     # If zsh isn't installed, get the platform of the current machine and
@@ -10,14 +13,14 @@ function install_zsh() {
     if [[ $platform == 'Linux' ]]; then
       if [[ -f /etc/redhat-release ]]; then
         sudo yum install zsh
-      fi
-      if [[ -f /etc/debian_version ]]; then
+      elif [[ -f /etc/debian_version ]]; then
         sudo apt-get install zsh
       fi
     elif [[ $platform == 'Darwin' ]]; then
       brew install zsh
     fi
   fi
+
   if [[ $platform == 'Linux' || $platform == 'Darwin' ]]; then
     # Set the default shell to zsh if it isn't currently set to zsh
     if [[ ! "$SHELL" == "$(command -v zsh)" ]]; then
@@ -32,7 +35,6 @@ function install_zsh() {
 }
 
 function install_nerd_font() {
-  platform=$(uname);
   if [[ $platform == 'Darwin' ]]; then
     brew tap homebrew/cask-fonts
     brew install --cask font-sauce-code-pro-nerd-font \
@@ -41,25 +43,24 @@ function install_nerd_font() {
 }
 
 function install_tmux() {
-  # Test to see if tmux is installed.
-  if [[ -z "$(command -v tmux)" ]]; then
-    # If tmux isn't installed, get the platform of the current machine and
-    # install tmux with the appropriate package manager.
-    platform=$(uname);
-    if [[ $platform == 'Linux' ]]; then
+  if [[ $platform == 'Linux' ]]; then
+    if [[ -z "$(command -v tmux)" ]]; then
+      # If tmux isn't installed, install it with the appropriate package manager.
       if [[ -f /etc/redhat-release ]]; then
         sudo yum install tmux
-      fi
-      if [[ -f /etc/debian_version ]]; then
+      elif [[ -f /etc/debian_version ]]; then
         sudo apt-get install tmux
       fi
-    elif [[ $platform == 'Darwin' ]]; then
+    fi
+    # Clone Tmux Plugin Manager if it isn't already present
+    if [[ ! -d "$HOME/.tmux/plugins/tpm/" ]]; then
+      git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+    fi
+  elif [[ $platform == 'Darwin' ]]; then
+    if [[ -z "$(command -v iterm)" ]]; then
+      # If iTerm2 isn't installed, install it using Homebrew
       brew install --cask iterm2
     fi
-  fi
-  # Clone Tmux Plugin Manager if it isn't already present
-  if [[ ! -d "$HOME/.tmux/plugins/tpm/" ]]; then
-    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
   fi
 }
 
