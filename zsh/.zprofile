@@ -80,13 +80,13 @@ spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
 #   5. NETWORKING
 #   ---------------------------
 
-alias myip='curl my-ip-is.appspot.com/plain'  # myip:         Public facing IP Address
-alias netCons='lsof -i'                       # netCons:      Show all open TCP/IP sockets
-alias lsock='sudo lsof -i -P'                 # lsock:        Display open sockets
-alias lsockU='sudo lsof -nP | grep UDP'       # lsockU:       Display only open UDP sockets
-alias lsockT='sudo lsof -nP | grep TCP'       # lsockT:       Display only open TCP sockets
-alias openPorts='sudo lsof -i | grep LISTEN'  # openPorts:    All listening connections
-alias showBlocked='sudo ipfw list'            # showBlocked:  All ipfw rules inc/ blocked IPs
+alias myip='curl https://checkip.amazonaws.com' # myip:         Public facing IP Address
+alias netCons='lsof -i'                         # netCons:      Show all open TCP/IP sockets
+alias lsock='sudo lsof -i -P'                   # lsock:        Display open sockets
+alias lsockU='sudo lsof -nP | grep UDP'         # lsockU:       Display only open UDP sockets
+alias lsockT='sudo lsof -nP | grep TCP'         # lsockT:       Display only open TCP sockets
+alias openPorts='sudo lsof -i | grep LISTEN'    # openPorts:    All listening connections
+alias showBlocked='sudo ipfw list'              # showBlocked:  All ipfw rules inc/ blocked IPs
 
 case $(uname) in
   "Linux")
