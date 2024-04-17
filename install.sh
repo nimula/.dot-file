@@ -7,7 +7,7 @@ set -e
 PLATFORM=$(uname);
 CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 NL="\n"
-if [[ ${PLATFORM} -eq "Darwin" ]]; then
+if [[ "${PLATFORM}" == "Darwin" ]]; then
     NL=$'\\\n'
 fi
 
@@ -16,26 +16,26 @@ function install_zsh() {
   if [[ -z "$(command -v zsh)" ]]; then
     # If zsh isn't installed, get the platform of the current machine and
     # install zsh with the appropriate package manager.
-    if [[ ${PLATFORM} -eq 'Linux' ]]; then
+    if [[ "${PLATFORM}" == 'Linux' ]]; then
       if [[ -f /etc/redhat-release ]]; then
         sudo yum install zsh
       elif [[ -f /etc/debian_version ]]; then
         sudo apt-get install zsh
       fi
-    elif [[ ${PLATFORM} -eq 'Darwin' ]]; then
+    elif [[ "${PLATFORM}" == 'Darwin' ]]; then
       brew install zsh
     fi
   fi
 
-  if [[ ${PLATFORM} -eq 'Linux' || ${PLATFORM} -eq 'Darwin' ]]; then
+  if [[ "${PLATFORM}" == 'Linux' || "${PLATFORM}" == 'Darwin' ]]; then
     # Set the default shell to zsh if it isn't currently set to zsh.
-    if [[ "$SHELL" -ne "$(command -v zsh)" ]]; then
+    if [[ "$SHELL" != "$(command -v zsh)" ]]; then
       chsh -s "$(command -v zsh)"
     fi
   fi
 
   # Upgrading Bash on macOS
-  if [[ ${PLATFORM} -eq 'Darwin' ]]; then
+  if [[ "${PLATFORM}" == 'Darwin' ]]; then
       brew install bash
   fi
   # Install zim if it isn't already present
@@ -46,7 +46,7 @@ function install_zsh() {
 }
 
 function install_nerd_font() {
-  if [[ ${PLATFORM} -eq 'Darwin' ]]; then
+  if [[ "${PLATFORM}" == 'Darwin' ]]; then
     brew tap homebrew/cask-fonts
     brew install --cask font-sauce-code-pro-nerd-font \
     font-noto-sans font-noto-sans-cjk font-noto-serif font-noto-serif-cjk
@@ -54,7 +54,7 @@ function install_nerd_font() {
 }
 
 function install_tmux() {
-  if [[ ${PLATFORM} -eq 'Linux' ]]; then
+  if [[ "${PLATFORM}" == 'Linux' ]]; then
     if [[ -z "$(command -v tmux)" ]]; then
       # If tmux isn't installed, install it with the appropriate package manager.
       if [[ -f /etc/redhat-release ]]; then
@@ -124,7 +124,7 @@ ln -fnsv "${CURR_DIR}/zsh/.p10k.zsh" "${HOME}"
 ln -fnsv "${CURR_DIR}/vim/.vimrc" "${HOME}"
 ln -fnsv "${CURR_DIR}/vim" "${HOME}/.vim"
 ln -fnsv "${CURR_DIR}/git/.gitignore.global" "${HOME}"
-if [[ ${PLATFORM} -eq 'Linux' ]]; then
+if [[ "${PLATFORM}" == 'Linux' ]]; then
  ln -fnsv "${CURR_DIR}/tmux/.tmux.conf" "${HOME}"
 fi
 
@@ -133,6 +133,8 @@ git config --global include.path "${CURR_DIR}/git/.gitconfig.static"
 
 # Update zim module.
 zsh ~/.zim/zimfw.zsh install
+zsh ~/.zim/zimfw.zsh update
 zsh ~/.zim/zimfw.zsh upgrade
+zsh ~/.zim/zimfw.zsh compile
 
 set_skip_global_compinit
